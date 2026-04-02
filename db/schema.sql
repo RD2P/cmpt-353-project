@@ -1,0 +1,19 @@
+-- Schema for Que-Query
+-- MYSQL_DATABASE=qqdb.
+
+CREATE DATABASE IF NOT EXISTS `qqdb`
+  DEFAULT CHARACTER SET utf8mb4
+  DEFAULT COLLATE utf8mb4_0900_ai_ci;
+
+USE `qqdb`;
+
+CREATE TABLE IF NOT EXISTS `User` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(255) NOT NULL,
+  `passwordHash` VARCHAR(255) NOT NULL,
+  `displayName` VARCHAR(64) NOT NULL,
+  `role` ENUM('USER', 'ADMIN') NOT NULL DEFAULT 'USER',
+  `createdAt` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_user_email` (`email`)
+) ENGINE=InnoDB;
