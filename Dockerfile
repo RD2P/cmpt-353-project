@@ -1,11 +1,11 @@
-FROM 'node:latest'
+FROM node:latest
 
 WORKDIR /app/
 
-COPY *.json ./
+COPY package.json package-lock.json ./
 
 RUN npm install
 
 COPY . .
 
-CMD ["npm", "run", "dev"    ]
+CMD ["npm", "run", "dev"]
