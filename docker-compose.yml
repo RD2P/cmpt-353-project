@@ -14,6 +14,8 @@ services:
       - ./db/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
       # seed admin info
       - ./db/seed_admin.sql:/docker-entrypoint-initdb.d/02_seed_admin.sql
+      # seed standard users
+      - ./db/seed_users.sql:/docker-entrypoint-initdb.d/03_seed_users.sql
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h localhost -p$${MYSQL_ROOT_PASSWORD} --silent"]
       interval: 5s
