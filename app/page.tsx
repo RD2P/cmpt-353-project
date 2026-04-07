@@ -37,7 +37,16 @@ export default async function Home() {
 
   return (
     <div className="relative min-h-dvh overflow-hidden bg-slate-50">
-      <header className="relative z-10 flex w-full items-center justify-end gap-2 p-4 sm:p-6">
+      <header className="relative z-10 flex w-full items-center justify-between gap-3 p-4 sm:p-6">
+        {isSignedIn ? (
+          <p className="text-sm font-semibold text-emerald-800 sm:text-base">
+            Welcome, {session.displayName}
+          </p>
+        ) : (
+          <div />
+        )}
+
+        <div className="flex items-center gap-2">
         {isSignedIn ? (
           <>
             <div className="inline-flex items-center border-2 border-emerald-700 bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-900 shadow-[0_8px_0_0_rgba(6,95,70,0.35)]">
@@ -61,6 +70,7 @@ export default async function Home() {
             </Link>
           </>
         )}
+        </div>
       </header>
 
       <main className="relative z-10 mx-auto flex min-h-[calc(100dvh-5rem)] w-full max-w-4xl items-center px-4 pb-12 sm:px-6 lg:px-8">
@@ -70,11 +80,6 @@ export default async function Home() {
           </div>
 
           <div className="space-y-3">
-            {isSignedIn ? (
-              <p className="text-base font-semibold text-emerald-800 sm:text-lg">
-                Welcome, {session.displayName}
-              </p>
-            ) : null}
             <h1 className="max-w-2xl text-balance text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">
               Que-Query keeps Q&amp;A simple.
             </h1>
