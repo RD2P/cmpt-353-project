@@ -75,7 +75,14 @@ export default async function ChannelPage({
         >
           Back
         </Link>
-        {isSignedIn ? <CreatePostModal channelId={channelId} /> : null}
+        <div className="flex items-center gap-2">
+          {isSignedIn ? (
+            <div className="inline-flex items-center border-2 border-emerald-700 bg-emerald-100 px-3 py-2 text-sm font-semibold text-emerald-900 shadow-[0_6px_0_0_rgba(6,95,70,0.35)]">
+              {session.displayName}
+            </div>
+          ) : null}
+          {isSignedIn ? <CreatePostModal channelId={channelId} /> : null}
+        </div>
       </div>
 
       <section className="space-y-3 border-2 border-slate-950 bg-white p-6 shadow-[0_14px_0_0_rgba(15,23,42,1)]">
