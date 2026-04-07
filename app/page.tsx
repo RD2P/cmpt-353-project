@@ -3,6 +3,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import type { RowDataPacket } from "mysql2";
 import LogoutButton from "@/app/components/logout-button";
+import CreateChannelModal from "@/app/components/create-channel-modal";
 import { getDbPool } from "@/lib/db";
 import { readSessionToken, sessionCookie } from "@/lib/session";
 
@@ -107,7 +108,10 @@ export default async function Home() {
 
           {isSignedIn ? (
             <section className="space-y-3 border-2 border-slate-950 bg-slate-50 p-4">
-              <h2 className="text-xl font-semibold text-slate-950">Channels</h2>
+              <div className="flex items-center justify-between gap-3">
+                <h2 className="text-xl font-semibold text-slate-950">Channels</h2>
+                <CreateChannelModal />
+              </div>
               {channels.length === 0 ? (
                 <p className="text-sm text-slate-700">No channels yet.</p>
               ) : (
