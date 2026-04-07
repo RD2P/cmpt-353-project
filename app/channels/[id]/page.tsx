@@ -5,6 +5,7 @@ import type { RowDataPacket } from "mysql2";
 import CreatePostModal from "@/app/components/create-post-modal";
 import DeletePostButton from "@/app/components/delete-post-button";
 import LogoutButton from "@/app/components/logout-button";
+import PostVoteButtons from "@/app/components/post-vote-buttons";
 import { getDbPool } from "@/lib/db";
 import { readSessionToken, sessionCookie } from "@/lib/session";
 
@@ -20,6 +21,8 @@ type PostRow = RowDataPacket & {
   body: string;
   createdAt: string;
   authorDisplayName: string;
+  voteScore: number;
+  userVote: number | null;
 };
 
 function formatPostTimestamp(value: string): string {
@@ -62,10 +65,21 @@ export default async function ChannelPage({
   }
 
   const channel = channelRows[0];
-  const [posts] = await db.execute<PostRow[]>(
-    "SELECT p.`id`, p.`title`, p.`body`, p.`createdAt`, u.`displayName` AS `authorDisplayName` FROM `Post` p INNER JOIN `User` u ON u.`id` = p.`authorId` WHERE p.`channelId` = ? ORDER BY p.`createdAt` DESC",
-    [channelId],
-  );
+  let posts: PostRow[] = [];
+
+  if (isSignedIn) {
+    const [rows] = await db.execute<PostRow[]>(
+      "SELECT p.`id`, p.`title`, p.`body`, p.`createdAt`, u.`displayName` AS `authorDisplayName`, COALESCE(SUM(v.`value`), 0) AS `voteScore`, MAX(CASE WHEN v.`userId` = ? THEN v.`value` ELSE NULL END) AS `userVote` FROM `Post` p INNER JOIN `User` u ON u.`id` = p.`authorId` LEFT JOIN `Vote` v ON v.`targetType` = 'POST' AND v.`targetId` = p.`id` WHERE p.`channelId` = ? GROUP BY p.`id`, p.`title`, p.`body`, p.`createdAt`, u.`displayName` ORDER BY p.`createdAt` DESC",
+      [session.userId, channelId],
+    );
+    posts = rows;
+  } else {
+    const [rows] = await db.execute<PostRow[]>(
+      "SELECT p.`id`, p.`title`, p.`body`, p.`createdAt`, u.`displayName` AS `authorDisplayName`, COALESCE(SUM(v.`value`), 0) AS `voteScore`, NULL AS `userVote` FROM `Post` p INNER JOIN `User` u ON u.`id` = p.`authorId` LEFT JOIN `Vote` v ON v.`targetType` = 'POST' AND v.`targetId` = p.`id` WHERE p.`channelId` = ? GROUP BY p.`id`, p.`title`, p.`body`, p.`createdAt`, u.`displayName` ORDER BY p.`createdAt` DESC",
+      [channelId],
+    );
+    posts = rows;
+  }
 
   return (
     <main className="mx-auto min-h-dvh w-full max-w-4xl space-y-5 px-4 py-8 sm:px-6 lg:px-8">
@@ -108,7 +122,16 @@ export default async function ChannelPage({
               <li key={post.id} className="space-y-2 border-2 border-slate-950 bg-white p-3">
                 <div className="flex items-start justify-between gap-3">
                   <h3 className="text-base font-semibold text-slate-950">{post.title}</h3>
-                  {isAdmin ? <DeletePostButton postId={post.id} /> : null}
+                  <div className="flex items-center gap-2">
+                    {isSignedIn ? (
+                      <PostVoteButtons
+                        postId={post.id}
+                        initialScore={Number(post.voteScore ?? 0)}
+                        initialUserVote={post.userVote === null ? null : Number(post.userVote)}
+                      />
+                    ) : null}
+                    {isAdmin ? <DeletePostButton postId={post.id} /> : null}
+                  </div>
                 </div>
                 <p className="text-sm text-slate-800">{post.body}</p>
                 <p className="text-xs font-medium text-slate-600">
