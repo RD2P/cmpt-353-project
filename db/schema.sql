@@ -13,7 +13,6 @@ CREATE TABLE IF NOT EXISTS `User` (
   `email` VARCHAR(255) NOT NULL,
   `passwordHash` VARCHAR(255) NOT NULL,
   `displayName` VARCHAR(64) NOT NULL,
-  `role` ENUM('USER', 'ADMIN') NOT NULL DEFAULT 'USER',
   `createdAt` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_user_email` (`email`)

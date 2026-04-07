@@ -6,7 +6,6 @@ const SESSION_AGE_SECONDS = 60 * 60 * 24 * 7;
 type SessionPayload = {
   userId: number;
   email: string;
-  role: "USER" | "ADMIN";
   iat: number;
   nonce: string;
 };
@@ -27,11 +26,10 @@ function sign(value: string): string {
   return createHmac("sha256", getSessionSecret()).update(value).digest("base64url");
 }
 
-export function createSessionToken(userId: number, email: string, role: "USER" | "ADMIN"): string {
+export function createSessionToken(userId: number, email: string): string {
   const payload: SessionPayload = {
     userId,
     email,
-    role,
     iat: Date.now(),
     nonce: randomBytes(8).toString("hex"),
   };

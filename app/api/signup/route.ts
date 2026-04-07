@@ -9,7 +9,6 @@ type SignupRequestBody = {
   email?: string;
   password?: string;
   displayName?: string;
-  role?: "USER" | "ADMIN";
 };
 
 function isValidEmail(email: string): boolean {
@@ -23,7 +22,6 @@ export async function POST(request: Request) {
     const email = body.email?.trim().toLowerCase() ?? "";
     const password = body.password ?? "";
     const displayName = body.displayName?.trim() ?? "";
-    const role = body.role === "ADMIN" ? "ADMIN" : "USER";
 
     if (!isValidEmail(email)) {
       return NextResponse.json({ error: "Invalid email." }, { status: 400 });
@@ -47,12 +45,12 @@ export async function POST(request: Request) {
     const db = getDbPool();
 
     const [result] = await db.execute<ResultSetHeader>(
-      "INSERT INTO `User` (`email`, `passwordHash`, `displayName`, `role`) VALUES (?, ?, ?, ?)",
-      [email, passwordHash, displayName, role],
+      "INSERT INTO `User` (`email`, `passwordHash`, `displayName`) VALUES (?, ?, ?)",
+      [email, passwordHash, displayName],
     );
 
     const userId = Number(result.insertId);
-    const token = createSessionToken(userId, email, role);
+    const token = createSessionToken(userId, email);
 
     const cookieStore = await cookies();
     cookieStore.set(sessionCookie.name, token, {
@@ -69,7 +67,6 @@ export async function POST(request: Request) {
           id: userId,
           email,
           displayName,
-          role,
         },
       },
       { status: 201 },

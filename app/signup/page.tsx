@@ -7,7 +7,6 @@ export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
-  const [role, setRole] = useState<"USER" | "ADMIN">("USER");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -20,7 +19,7 @@ export default function SignUpPage() {
       const response = await fetch("/api/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, displayName, role }),
+        body: JSON.stringify({ email, password, displayName }),
       });
 
       const data = (await response.json()) as { error?: string };
@@ -79,18 +78,6 @@ export default function SignUpPage() {
               onChange={(event) => setPassword(event.target.value)}
               className="mt-1 w-full border-2 border-slate-950 bg-white px-3 py-2 text-slate-950 outline-none focus:bg-slate-100"
             />
-          </label>
-
-          <label className="block text-sm font-medium text-slate-900">
-            Role
-            <select
-              value={role}
-              onChange={(event) => setRole(event.target.value as "USER" | "ADMIN")}
-              className="mt-1 w-full border-2 border-slate-950 bg-white px-3 py-2 text-slate-950 outline-none focus:bg-slate-100"
-            >
-              <option value="USER">USER</option>
-              <option value="ADMIN">ADMIN</option>
-            </select>
           </label>
 
           {error ? <p className="text-sm font-medium text-red-700">{error}</p> : null}
