@@ -10,7 +10,7 @@ INSERT INTO `User` (`email`, `passwordHash`, `displayName`, `role`)
 VALUES
   (
     'albert.smith@gmail.com',
-    'qqalbertseedv1:dd5cd7927aa6e3ddfcc316b2c93312750685f5fcd123fdf814f8b5cd156966563fe724d7b6bdf3ae1a69ff133994bf4a43008ab492dcafe721bc879f0581f139',
+    'qqalbertseedv1:7e998044803124827a14c1e1f27be0c9aa477e3079ac3c1c4c32d4f71ab5d1564515a47ec9dd29bde0544043bbde47ac84119b97d6c24ed3eaa005b950feec4a',
     'Albert Smith',
     'USER'
   ),
