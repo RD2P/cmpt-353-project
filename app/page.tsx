@@ -1,8 +1,16 @@
 
 import Link from "next/link";
 import { cookies } from "next/headers";
+import type { RowDataPacket } from "mysql2";
 import LogoutButton from "@/app/components/logout-button";
+import { getDbPool } from "@/lib/db";
 import { readSessionToken, sessionCookie } from "@/lib/session";
+
+type ChannelRow = RowDataPacket & {
+  id: number;
+  name: string;
+  description: string | null;
+};
 
 export default async function Home() {
   const features = [
@@ -14,6 +22,15 @@ export default async function Home() {
   const cookieStore = await cookies();
   const session = readSessionToken(cookieStore.get(sessionCookie.name)?.value);
   const isSignedIn = session !== null;
+  let channels: ChannelRow[] = [];
+
+  if (isSignedIn) {
+    const db = getDbPool();
+    const [rows] = await db.execute<ChannelRow[]>(
+      "SELECT `id`, `name`, `description` FROM `Channel` ORDER BY `createdAt` DESC",
+    );
+    channels = rows;
+  }
 
   return (
     <div className="relative min-h-dvh overflow-hidden bg-slate-50">
@@ -87,6 +104,26 @@ export default async function Home() {
               </li>
             ))}
           </ul>
+
+          {isSignedIn ? (
+            <section className="space-y-3 border-2 border-slate-950 bg-slate-50 p-4">
+              <h2 className="text-xl font-semibold text-slate-950">Channels</h2>
+              {channels.length === 0 ? (
+                <p className="text-sm text-slate-700">No channels yet.</p>
+              ) : (
+                <ul className="space-y-2">
+                  {channels.map((channel) => (
+                    <li key={channel.id} className="border-2 border-slate-950 bg-white p-3">
+                      <p className="text-sm font-semibold text-slate-950">#{channel.name}</p>
+                      {channel.description ? (
+                        <p className="mt-1 text-sm text-slate-700">{channel.description}</p>
+                      ) : null}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          ) : null}
         </section>
       </main>
     </div>
