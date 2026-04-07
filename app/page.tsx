@@ -12,19 +12,18 @@ export default function Home() {
   ];
 
   return (
-    <div className="relative min-h-dvh overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(250,204,21,0.18),_transparent_32%),radial-gradient(circle_at_top_right,_rgba(34,197,94,0.14),_transparent_30%),radial-gradient(circle_at_bottom,_rgba(59,130,246,0.12),_transparent_34%)]" />
+    <div className="relative min-h-dvh overflow-hidden bg-slate-950">
 
       <header className="relative z-10 flex w-full items-center justify-end gap-2 p-4 sm:p-6">
         <Link
           href="/signin"
-          className="inline-flex items-center justify-center rounded-full border border-sky-300/20 bg-slate-950/50 px-4 py-2 text-sm text-slate-50 shadow-sm backdrop-blur-sm transition hover:-translate-y-0.5 hover:bg-slate-900/70"
+          className="inline-flex items-center justify-center border border-sky-300/20 bg-slate-900 px-4 py-2 text-sm text-slate-50 shadow-lg shadow-slate-950/50 transition hover:-translate-y-0.5 hover:bg-slate-800"
         >
           Sign in
         </Link>
         <Link
           href="/signup"
-          className="inline-flex items-center justify-center rounded-full bg-sky-400 px-4 py-2 text-sm font-medium text-slate-950 shadow-sm transition hover:-translate-y-0.5 hover:bg-sky-300"
+          className="inline-flex items-center justify-center bg-sky-400 px-4 py-2 text-sm font-medium text-slate-950 shadow-lg shadow-sky-950/40 transition hover:-translate-y-0.5 hover:bg-sky-300"
         >
           Sign up
         </Link>
@@ -33,7 +32,7 @@ export default function Home() {
       <main className="relative z-10 mx-auto flex min-h-[calc(100dvh-5rem)] w-full max-w-6xl items-center px-4 pb-12 sm:px-6 lg:px-8">
         <div className="grid w-full gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <section className="space-y-6">
-            <div className="inline-flex items-center rounded-full border border-sky-300/15 bg-slate-950/50 px-3 py-1 text-xs font-medium text-sky-100/80 shadow-sm backdrop-blur-sm">
+            <div className="inline-flex items-center border border-sky-300/15 bg-slate-900 px-3 py-1 text-xs font-medium text-sky-100/80 shadow-lg shadow-slate-950/40">
               A friendly place for questions, threads, and screenshots
             </div>
 
@@ -52,13 +51,13 @@ export default function Home() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/signup"
-                className="inline-flex items-center justify-center rounded-full bg-sky-400 px-5 py-3 text-sm font-medium text-slate-950 shadow-sm transition hover:-translate-y-0.5 hover:bg-sky-300"
+                className="inline-flex items-center justify-center bg-sky-400 px-5 py-3 text-sm font-medium text-slate-950 shadow-lg shadow-sky-950/40 transition hover:-translate-y-0.5 hover:bg-sky-300"
               >
                 Get started
               </Link>
               <Link
                 href="/signin"
-                className="inline-flex items-center justify-center rounded-full border border-sky-300/20 bg-slate-950/50 px-5 py-3 text-sm font-medium text-slate-50 shadow-sm backdrop-blur-sm transition hover:-translate-y-0.5 hover:bg-slate-900/70"
+                className="inline-flex items-center justify-center border border-sky-300/20 bg-slate-900 px-5 py-3 text-sm font-medium text-slate-50 shadow-lg shadow-slate-950/50 transition hover:-translate-y-0.5 hover:bg-slate-800"
               >
                 I already have an account
               </Link>
@@ -68,7 +67,7 @@ export default function Home() {
               {features.map((feature) => (
                 <div
                   key={feature}
-                  className="rounded-2xl border border-sky-300/12 bg-slate-950/55 px-4 py-3 text-sm text-slate-200/80 shadow-sm backdrop-blur-sm"
+                  className="border border-sky-300/12 bg-slate-900 px-4 py-3 text-sm text-slate-200/80 shadow-lg shadow-slate-950/40"
                 >
                   {feature}
                 </div>
@@ -77,8 +76,8 @@ export default function Home() {
           </section>
 
           <aside className="relative">
-            <div className="absolute inset-0 -z-10 rounded-[2rem] bg-sky-500/10 blur-3xl" />
-            <div className="rounded-[2rem] border border-sky-300/12 bg-slate-950/70 p-5 shadow-xl backdrop-blur-md sm:p-6">
+            <div className="absolute inset-0 -z-10 bg-sky-500/10 blur-3xl" />
+            <div className="border border-sky-300/12 bg-slate-900 p-5 shadow-2xl shadow-slate-950/60 sm:p-6">
               <div className="flex items-center justify-between gap-4 border-b border-sky-300/10 pb-4">
                 <div>
                   <p className="text-xs font-medium uppercase tracking-[0.2em] text-slate-300/55">
@@ -88,7 +87,7 @@ export default function Home() {
                     A quick tour of the app
                   </p>
                 </div>
-                <div className="rounded-full bg-sky-400 px-3 py-1 text-xs font-medium text-slate-950">
+                <div className="bg-sky-400 px-3 py-1 text-xs font-medium text-slate-950 shadow-lg shadow-sky-950/40">
                   Ready to go
                 </div>
               </div>
@@ -102,7 +101,7 @@ export default function Home() {
                 <p>Search people and content without digging through noise.</p>
               </div>
 
-              <div className="mt-5 rounded-2xl bg-sky-400 px-4 py-4 text-slate-950">
+              <div className="mt-5 bg-sky-400 px-4 py-4 text-slate-950 shadow-lg shadow-sky-950/40">
                 <p className="text-sm font-medium">Light, quick, and organized.</p>
                 <p className="mt-1 text-sm text-slate-950/75">
                   Built for conversations that stay easy to follow.
