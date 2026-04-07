@@ -21,6 +21,7 @@ type PostRow = RowDataPacket & {
   body: string;
   createdAt: string;
   authorDisplayName: string;
+  authorRole: "USER" | "ADMIN";
   voteScore: number;
   userVote: number | null;
 };
@@ -69,13 +70,13 @@ export default async function ChannelPage({
 
   if (isSignedIn) {
     const [rows] = await db.execute<PostRow[]>(
-      "SELECT p.`id`, p.`title`, p.`body`, p.`createdAt`, u.`displayName` AS `authorDisplayName`, COALESCE(SUM(v.`value`), 0) AS `voteScore`, MAX(CASE WHEN v.`userId` = ? THEN v.`value` ELSE NULL END) AS `userVote` FROM `Post` p INNER JOIN `User` u ON u.`id` = p.`authorId` LEFT JOIN `Vote` v ON v.`targetType` = 'POST' AND v.`targetId` = p.`id` WHERE p.`channelId` = ? GROUP BY p.`id`, p.`title`, p.`body`, p.`createdAt`, u.`displayName` ORDER BY p.`createdAt` DESC",
+      "SELECT p.`id`, p.`title`, p.`body`, p.`createdAt`, u.`displayName` AS `authorDisplayName`, u.`role` AS `authorRole`, COALESCE(SUM(v.`value`), 0) AS `voteScore`, MAX(CASE WHEN v.`userId` = ? THEN v.`value` ELSE NULL END) AS `userVote` FROM `Post` p INNER JOIN `User` u ON u.`id` = p.`authorId` LEFT JOIN `Vote` v ON v.`targetType` = 'POST' AND v.`targetId` = p.`id` WHERE p.`channelId` = ? GROUP BY p.`id`, p.`title`, p.`body`, p.`createdAt`, u.`displayName`, u.`role` ORDER BY p.`createdAt` DESC",
       [session.userId, channelId],
     );
     posts = rows;
   } else {
     const [rows] = await db.execute<PostRow[]>(
-      "SELECT p.`id`, p.`title`, p.`body`, p.`createdAt`, u.`displayName` AS `authorDisplayName`, COALESCE(SUM(v.`value`), 0) AS `voteScore`, NULL AS `userVote` FROM `Post` p INNER JOIN `User` u ON u.`id` = p.`authorId` LEFT JOIN `Vote` v ON v.`targetType` = 'POST' AND v.`targetId` = p.`id` WHERE p.`channelId` = ? GROUP BY p.`id`, p.`title`, p.`body`, p.`createdAt`, u.`displayName` ORDER BY p.`createdAt` DESC",
+      "SELECT p.`id`, p.`title`, p.`body`, p.`createdAt`, u.`displayName` AS `authorDisplayName`, u.`role` AS `authorRole`, COALESCE(SUM(v.`value`), 0) AS `voteScore`, NULL AS `userVote` FROM `Post` p INNER JOIN `User` u ON u.`id` = p.`authorId` LEFT JOIN `Vote` v ON v.`targetType` = 'POST' AND v.`targetId` = p.`id` WHERE p.`channelId` = ? GROUP BY p.`id`, p.`title`, p.`body`, p.`createdAt`, u.`displayName`, u.`role` ORDER BY p.`createdAt` DESC",
       [channelId],
     );
     posts = rows;
@@ -92,8 +93,13 @@ export default async function ChannelPage({
         </Link>
         <div className="flex items-center gap-2">
           {isSignedIn ? (
-            <div className="inline-flex items-center border-2 border-emerald-700 bg-emerald-100 px-3 py-2 text-sm font-semibold text-emerald-900 shadow-[0_6px_0_0_rgba(6,95,70,0.35)]">
+            <div className="relative inline-flex items-center border-2 border-emerald-700 bg-emerald-100 px-3 py-2 text-sm font-semibold text-emerald-900 shadow-[0_6px_0_0_rgba(6,95,70,0.35)]">
               {session.displayName}
+              {isAdmin ? (
+                <span className="absolute -right-2 -top-2 border-2 border-amber-700 bg-amber-200 px-1 text-[10px] leading-none shadow-[0_3px_0_0_rgba(146,64,14,0.35)]">
+                  👑
+                </span>
+              ) : null}
             </div>
           ) : null}
           {isSignedIn ? <LogoutButton /> : null}
@@ -135,7 +141,8 @@ export default async function ChannelPage({
                 </div>
                 <p className="text-sm text-slate-800">{post.body}</p>
                 <p className="text-xs font-medium text-slate-600">
-                  By {post.authorDisplayName} · {formatPostTimestamp(post.createdAt)}
+                  By {post.authorDisplayName}
+                  {post.authorRole === "ADMIN" ? " 👑" : ""} · {formatPostTimestamp(post.createdAt)}
                 </p>
               </li>
             ))}

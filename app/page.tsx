@@ -39,9 +39,14 @@ export default async function Home() {
     <div className="relative min-h-dvh overflow-hidden bg-slate-50">
       <header className="relative z-10 flex w-full items-center justify-between gap-3 p-4 sm:p-6">
         {isSignedIn ? (
-          <p className="text-sm font-semibold text-emerald-800 sm:text-base">
+          <div className="relative inline-flex items-center border-2 border-emerald-700 bg-emerald-100 px-3 py-2 text-sm font-semibold text-emerald-900 shadow-[0_6px_0_0_rgba(6,95,70,0.35)] sm:text-base">
             Welcome, {session.displayName}
-          </p>
+            {isAdmin ? (
+              <span className="absolute -right-2 -top-2 border-2 border-amber-700 bg-amber-200 px-1 text-[10px] leading-none shadow-[0_3px_0_0_rgba(146,64,14,0.35)]">
+                👑
+              </span>
+            ) : null}
+          </div>
         ) : (
           <div />
         )}
