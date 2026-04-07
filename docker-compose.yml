@@ -28,6 +28,7 @@ services:
       - /app/node_modules
     environment:
       DATABASE_URL: ${DATABASE_URL}
+      SESSION_SECRET: ${SESSION_SECRET}
     depends_on:
       - mysql
 
