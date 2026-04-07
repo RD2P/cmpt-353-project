@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { RowDataPacket } from "mysql2";
 import CreatePostModal from "@/app/components/create-post-modal";
 import DeletePostButton from "@/app/components/delete-post-button";
+import EditPostModal from "@/app/components/edit-post-modal";
 import LogoutButton from "@/app/components/logout-button";
 import PostVoteButtons from "@/app/components/post-vote-buttons";
 import { getDbPool } from "@/lib/db";
@@ -20,6 +21,7 @@ type PostRow = RowDataPacket & {
   title: string;
   body: string;
   createdAt: string;
+  authorId: number;
   authorDisplayName: string;
   authorRole: "USER" | "ADMIN";
   voteScore: number;
@@ -70,13 +72,13 @@ export default async function ChannelPage({
 
   if (isSignedIn) {
     const [rows] = await db.execute<PostRow[]>(
-      "SELECT p.`id`, p.`title`, p.`body`, p.`createdAt`, u.`displayName` AS `authorDisplayName`, u.`role` AS `authorRole`, COALESCE(SUM(v.`value`), 0) AS `voteScore`, MAX(CASE WHEN v.`userId` = ? THEN v.`value` ELSE NULL END) AS `userVote` FROM `Post` p INNER JOIN `User` u ON u.`id` = p.`authorId` LEFT JOIN `Vote` v ON v.`targetType` = 'POST' AND v.`targetId` = p.`id` WHERE p.`channelId` = ? GROUP BY p.`id`, p.`title`, p.`body`, p.`createdAt`, u.`displayName`, u.`role` ORDER BY p.`createdAt` DESC",
+      "SELECT p.`id`, p.`title`, p.`body`, p.`createdAt`, p.`authorId`, u.`displayName` AS `authorDisplayName`, u.`role` AS `authorRole`, COALESCE(SUM(v.`value`), 0) AS `voteScore`, MAX(CASE WHEN v.`userId` = ? THEN v.`value` ELSE NULL END) AS `userVote` FROM `Post` p INNER JOIN `User` u ON u.`id` = p.`authorId` LEFT JOIN `Vote` v ON v.`targetType` = 'POST' AND v.`targetId` = p.`id` WHERE p.`channelId` = ? GROUP BY p.`id`, p.`title`, p.`body`, p.`createdAt`, p.`authorId`, u.`displayName`, u.`role` ORDER BY p.`createdAt` DESC",
       [session.userId, channelId],
     );
     posts = rows;
   } else {
     const [rows] = await db.execute<PostRow[]>(
-      "SELECT p.`id`, p.`title`, p.`body`, p.`createdAt`, u.`displayName` AS `authorDisplayName`, u.`role` AS `authorRole`, COALESCE(SUM(v.`value`), 0) AS `voteScore`, NULL AS `userVote` FROM `Post` p INNER JOIN `User` u ON u.`id` = p.`authorId` LEFT JOIN `Vote` v ON v.`targetType` = 'POST' AND v.`targetId` = p.`id` WHERE p.`channelId` = ? GROUP BY p.`id`, p.`title`, p.`body`, p.`createdAt`, u.`displayName`, u.`role` ORDER BY p.`createdAt` DESC",
+      "SELECT p.`id`, p.`title`, p.`body`, p.`createdAt`, p.`authorId`, u.`displayName` AS `authorDisplayName`, u.`role` AS `authorRole`, COALESCE(SUM(v.`value`), 0) AS `voteScore`, NULL AS `userVote` FROM `Post` p INNER JOIN `User` u ON u.`id` = p.`authorId` LEFT JOIN `Vote` v ON v.`targetType` = 'POST' AND v.`targetId` = p.`id` WHERE p.`channelId` = ? GROUP BY p.`id`, p.`title`, p.`body`, p.`createdAt`, p.`authorId`, u.`displayName`, u.`role` ORDER BY p.`createdAt` DESC",
       [channelId],
     );
     posts = rows;
@@ -136,7 +138,16 @@ export default async function ChannelPage({
                         initialUserVote={post.userVote === null ? null : Number(post.userVote)}
                       />
                     ) : null}
-                    {isAdmin ? <DeletePostButton postId={post.id} /> : null}
+                    {isSignedIn && (session.userId === post.authorId || isAdmin) ? (
+                      <>
+                        <EditPostModal
+                          postId={post.id}
+                          initialTitle={post.title}
+                          initialBody={post.body}
+                        />
+                        <DeletePostButton postId={post.id} />
+                      </>
+                    ) : null}
                   </div>
                 </div>
                 <p className="text-sm text-slate-800">{post.body}</p>

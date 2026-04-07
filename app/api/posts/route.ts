@@ -116,10 +116,6 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
     }
 
-    if (session.role !== "ADMIN") {
-      return NextResponse.json({ error: "Forbidden." }, { status: 403 });
-    }
-
     const body = (await request.json()) as DeletePostBody;
     const postId = Number(body.postId);
 
@@ -128,17 +124,97 @@ export async function DELETE(request: Request) {
     }
 
     const db = getDbPool();
+    const [posts] = await db.execute<PostRow[]>(
+      "SELECT `id`, `authorId` FROM `Post` WHERE `id` = ?",
+      [postId],
+    );
+
+    if (posts.length === 0) {
+      return NextResponse.json({ error: "Post not found." }, { status: 404 });
+    }
+
+    const post = posts[0];
+    const isAuthor = post.authorId === session.userId;
+    const isAdmin = session.role === "ADMIN";
+
+    if (!isAuthor && !isAdmin) {
+      return NextResponse.json({ error: "Forbidden." }, { status: 403 });
+    }
+
     const [result] = await db.execute<ResultSetHeader>(
       "DELETE FROM `Post` WHERE `id` = ?",
       [postId],
     );
 
-    if (result.affectedRows === 0) {
-      return NextResponse.json({ error: "Post not found." }, { status: 404 });
-    }
-
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: "Unable to delete post." }, { status: 500 });
+  }
+}
+
+type UpdatePostBody = {
+  postId?: number;
+  title?: string;
+  body?: string;
+};
+
+export async function PATCH(request: Request) {
+  try {
+    const cookieStore = await cookies();
+    const session = readSessionToken(cookieStore.get(sessionCookie.name)?.value);
+
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+    }
+
+    const body = (await request.json()) as UpdatePostBody;
+    const postId = Number(body.postId);
+    const title = body.title?.trim() ?? "";
+    const postBody = body.body?.trim() ?? "";
+
+    if (!Number.isInteger(postId) || postId <= 0) {
+      return NextResponse.json({ error: "Valid postId is required." }, { status: 400 });
+    }
+
+    if (title.length < 2 || title.length > 255) {
+      return NextResponse.json({ error: "Title must be 2-255 characters." }, { status: 400 });
+    }
+
+    if (postBody.length < 2) {
+      return NextResponse.json({ error: "Post body is required." }, { status: 400 });
+    }
+
+    const db = getDbPool();
+    const [posts] = await db.execute<PostRow[]>(
+      "SELECT `id`, `authorId` FROM `Post` WHERE `id` = ?",
+      [postId],
+    );
+
+    if (posts.length === 0) {
+      return NextResponse.json({ error: "Post not found." }, { status: 404 });
+    }
+
+    const post = posts[0];
+    const isAuthor = post.authorId === session.userId;
+    const isAdmin = session.role === "ADMIN";
+
+    if (!isAuthor && !isAdmin) {
+      return NextResponse.json({ error: "Forbidden." }, { status: 403 });
+    }
+
+    const [result] = await db.execute<ResultSetHeader>(
+      "UPDATE `Post` SET `title` = ?, `body` = ? WHERE `id` = ?",
+      [title, postBody, postId],
+    );
+
+    return NextResponse.json({
+      post: {
+        id: postId,
+        title,
+        body: postBody,
+      },
+    });
+  } catch {
+    return NextResponse.json({ error: "Unable to update post." }, { status: 500 });
   }
 }
