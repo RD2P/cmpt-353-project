@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { RowDataPacket } from "mysql2";
 import CreatePostModal from "@/app/components/create-post-modal";
 import DeletePostButton from "@/app/components/delete-post-button";
+import LogoutButton from "@/app/components/logout-button";
 import { getDbPool } from "@/lib/db";
 import { readSessionToken, sessionCookie } from "@/lib/session";
 
@@ -81,17 +82,24 @@ export default async function ChannelPage({
               {session.displayName}
             </div>
           ) : null}
-          {isSignedIn ? <CreatePostModal channelId={channelId} /> : null}
+          {isSignedIn ? <LogoutButton /> : null}
         </div>
       </div>
 
       <section className="space-y-3 border-2 border-slate-950 bg-white p-6 shadow-[0_14px_0_0_rgba(15,23,42,1)]">
-        <h1 className="text-3xl font-semibold text-slate-950">#{channel.name}</h1>
-        {channel.description ? <p className="text-slate-700">{channel.description}</p> : null}
+        <div className="flex items-start justify-between gap-3">
+          <div className="space-y-1">
+            <h1 className="text-3xl font-semibold text-slate-950">#{channel.name}</h1>
+            {channel.description ? <p className="text-slate-700">{channel.description}</p> : null}
+          </div>
+        </div>
       </section>
 
       <section className="space-y-3 border-2 border-slate-950 bg-slate-50 p-4">
-        <h2 className="text-xl font-semibold text-slate-950">Posts</h2>
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="text-xl font-semibold text-slate-950">Posts</h2>
+          {isSignedIn ? <CreatePostModal channelId={channelId} /> : null}
+        </div>
         {posts.length === 0 ? (
           <p className="text-sm text-slate-700">No posts in this channel yet.</p>
         ) : (
