@@ -21,6 +21,18 @@ type PostRow = RowDataPacket & {
   authorDisplayName: string;
 };
 
+function formatPostTimestamp(value: string): string {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(date);
+}
+
 export default async function ChannelPage({
   params,
 }: {
@@ -84,7 +96,9 @@ export default async function ChannelPage({
                   {isAdmin ? <DeletePostButton postId={post.id} /> : null}
                 </div>
                 <p className="text-sm text-slate-800">{post.body}</p>
-                <p className="text-xs font-medium text-slate-600">By {post.authorDisplayName}</p>
+                <p className="text-xs font-medium text-slate-600">
+                  By {post.authorDisplayName} · {formatPostTimestamp(post.createdAt)}
+                </p>
               </li>
             ))}
           </ul>
