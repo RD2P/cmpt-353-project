@@ -50,7 +50,7 @@ export async function POST(request: Request) {
     );
 
     const userId = Number(result.insertId);
-    const token = createSessionToken(userId, email);
+    const token = createSessionToken(userId, email, displayName);
 
     const cookieStore = await cookies();
     cookieStore.set(sessionCookie.name, token, {

@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     }
 
     const user = rows[0];
-  const token = createSessionToken(user.id, user.email);
+    const token = createSessionToken(user.id, user.email, user.displayName);
 
     const cookieStore = await cookies();
     cookieStore.set(sessionCookie.name, token, {
