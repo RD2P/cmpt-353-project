@@ -23,6 +23,7 @@ export default async function Home() {
   const cookieStore = await cookies();
   const session = readSessionToken(cookieStore.get(sessionCookie.name)?.value);
   const isSignedIn = session !== null;
+  const isAdmin = session?.role === "ADMIN";
   let channels: ChannelRow[] = [];
 
   if (isSignedIn) {

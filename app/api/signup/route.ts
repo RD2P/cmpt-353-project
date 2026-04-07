@@ -22,6 +22,7 @@ export async function POST(request: Request) {
     const email = body.email?.trim().toLowerCase() ?? "";
     const password = body.password ?? "";
     const displayName = body.displayName?.trim() ?? "";
+    const role: "USER" | "ADMIN" = "USER";
 
     if (!isValidEmail(email)) {
       return NextResponse.json({ error: "Invalid email." }, { status: 400 });
@@ -45,12 +46,12 @@ export async function POST(request: Request) {
     const db = getDbPool();
 
     const [result] = await db.execute<ResultSetHeader>(
-      "INSERT INTO `User` (`email`, `passwordHash`, `displayName`) VALUES (?, ?, ?)",
-      [email, passwordHash, displayName],
+      "INSERT INTO `User` (`email`, `passwordHash`, `displayName`, `role`) VALUES (?, ?, ?, ?)",
+      [email, passwordHash, displayName, role],
     );
 
     const userId = Number(result.insertId);
-    const token = createSessionToken(userId, email, displayName);
+    const token = createSessionToken(userId, email, displayName, role);
 
     const cookieStore = await cookies();
     cookieStore.set(sessionCookie.name, token, {
@@ -67,6 +68,7 @@ export async function POST(request: Request) {
           id: userId,
           email,
           displayName,
+          role,
         },
       },
       { status: 201 },

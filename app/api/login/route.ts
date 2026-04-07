@@ -14,6 +14,7 @@ type UserRow = RowDataPacket & {
   id: number;
   email: string;
   displayName: string;
+  role: "USER" | "ADMIN";
   passwordHash: string;
 };
 
@@ -29,7 +30,7 @@ export async function POST(request: Request) {
 
     const db = getDbPool();
     const [rows] = await db.execute<UserRow[]>(
-      "SELECT `id`, `email`, `displayName`, `passwordHash` FROM `User` WHERE `email` = ? LIMIT 1",
+      "SELECT `id`, `email`, `displayName`, `role`, `passwordHash` FROM `User` WHERE `email` = ? LIMIT 1",
       [email],
     );
 
@@ -38,7 +39,7 @@ export async function POST(request: Request) {
     }
 
     const user = rows[0];
-    const token = createSessionToken(user.id, user.email, user.displayName);
+    const token = createSessionToken(user.id, user.email, user.displayName, user.role);
 
     const cookieStore = await cookies();
     cookieStore.set(sessionCookie.name, token, {
@@ -54,6 +55,7 @@ export async function POST(request: Request) {
         id: user.id,
         email: user.email,
         displayName: user.displayName,
+        role: user.role,
       },
     });
   } catch {
