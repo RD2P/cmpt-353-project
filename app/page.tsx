@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import type { RowDataPacket } from "mysql2";
 import LogoutButton from "@/app/components/logout-button";
 import CreateChannelModal from "@/app/components/create-channel-modal";
+import DeleteChannelButton from "./components/delete-channel-button";
 import { getDbPool } from "@/lib/db";
 import { readSessionToken, sessionCookie } from "@/lib/session";
 
@@ -119,7 +120,10 @@ export default async function Home() {
                 <ul className="space-y-2">
                   {channels.map((channel) => (
                     <li key={channel.id} className="border-2 border-slate-950 bg-white p-3">
-                      <p className="text-sm font-semibold text-slate-950">#{channel.name}</p>
+                      <div className="flex items-start justify-between gap-3">
+                        <p className="text-sm font-semibold text-slate-950">#{channel.name}</p>
+                        {isAdmin ? <DeleteChannelButton channelId={channel.id} /> : null}
+                      </div>
                       {channel.description ? (
                         <p className="mt-1 text-sm text-slate-700">{channel.description}</p>
                       ) : null}
