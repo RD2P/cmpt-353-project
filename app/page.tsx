@@ -121,7 +121,12 @@ export default async function Home() {
                   {channels.map((channel) => (
                     <li key={channel.id} className="border-2 border-slate-950 bg-white p-3">
                       <div className="flex items-start justify-between gap-3">
-                        <p className="text-sm font-semibold text-slate-950">#{channel.name}</p>
+                        <Link
+                          href={`/channels/${channel.id}`}
+                          className="text-sm font-semibold text-slate-950 underline"
+                        >
+                          #{channel.name}
+                        </Link>
                         {isAdmin ? <DeleteChannelButton channelId={channel.id} /> : null}
                       </div>
                       {channel.description ? (
