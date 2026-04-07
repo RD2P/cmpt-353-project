@@ -1,6 +1,7 @@
 
 import Link from "next/link";
 import { cookies } from "next/headers";
+import LogoutButton from "@/app/components/logout-button";
 import { readSessionToken, sessionCookie } from "@/lib/session";
 
 export default async function Home() {
@@ -18,9 +19,12 @@ export default async function Home() {
     <div className="relative min-h-dvh overflow-hidden bg-slate-50">
       <header className="relative z-10 flex w-full items-center justify-end gap-2 p-4 sm:p-6">
         {isSignedIn ? (
-          <div className="inline-flex items-center border-2 border-emerald-700 bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-900 shadow-[0_8px_0_0_rgba(6,95,70,0.35)]">
-            Signed in
-          </div>
+          <>
+            <div className="inline-flex items-center border-2 border-emerald-700 bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-900 shadow-[0_8px_0_0_rgba(6,95,70,0.35)]">
+              Signed in
+            </div>
+            <LogoutButton />
+          </>
         ) : (
           <>
             <Link
@@ -59,20 +63,22 @@ export default async function Home() {
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href="/signup"
-              className="inline-flex items-center justify-center border-2 border-sky-700 bg-sky-400 px-5 py-3 text-sm font-medium text-slate-950 shadow-[0_10px_0_0_rgba(30,64,175,0.45)] transition hover:-translate-y-0.5 hover:bg-sky-300"
-            >
-              Get started
-            </Link>
-            <Link
-              href="/signin"
-              className="inline-flex items-center justify-center border-2 border-slate-950 bg-white px-5 py-3 text-sm font-medium text-slate-950 shadow-[0_10px_0_0_rgba(15,23,42,1)] transition hover:-translate-y-0.5 hover:bg-slate-100"
-            >
-              Sign in
-            </Link>
-          </div>
+          {isSignedIn ? null : (
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/signup"
+                className="inline-flex items-center justify-center border-2 border-sky-700 bg-sky-400 px-5 py-3 text-sm font-medium text-slate-950 shadow-[0_10px_0_0_rgba(30,64,175,0.45)] transition hover:-translate-y-0.5 hover:bg-sky-300"
+              >
+                Get started
+              </Link>
+              <Link
+                href="/signin"
+                className="inline-flex items-center justify-center border-2 border-slate-950 bg-white px-5 py-3 text-sm font-medium text-slate-950 shadow-[0_10px_0_0_rgba(15,23,42,1)] transition hover:-translate-y-0.5 hover:bg-slate-100"
+              >
+                Sign in
+              </Link>
+            </div>
+          )}
 
           <ul className="space-y-2 text-sm font-medium text-slate-900 sm:text-base">
             {features.map((feature) => (
