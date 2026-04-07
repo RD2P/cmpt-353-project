@@ -7,6 +7,7 @@ export type SessionPayload = {
   userId: number;
   email: string;
   displayName: string;
+  role: "USER" | "ADMIN";
   iat: number;
   nonce: string;
 };
@@ -27,11 +28,17 @@ function sign(value: string): string {
   return createHmac("sha256", getSessionSecret()).update(value).digest("base64url");
 }
 
-export function createSessionToken(userId: number, email: string, displayName: string): string {
+export function createSessionToken(
+  userId: number,
+  email: string,
+  displayName: string,
+  role: "USER" | "ADMIN",
+): string {
   const payload: SessionPayload = {
     userId,
     email,
     displayName,
+    role,
     iat: Date.now(),
     nonce: randomBytes(8).toString("hex"),
   };
@@ -67,7 +74,8 @@ export function readSessionToken(token: string | undefined): SessionPayload | nu
     if (
       typeof parsed.userId !== "number" ||
       typeof parsed.email !== "string" ||
-      typeof parsed.displayName !== "string"
+      typeof parsed.displayName !== "string" ||
+      (parsed.role !== "USER" && parsed.role !== "ADMIN")
     ) {
       return null;
     }
