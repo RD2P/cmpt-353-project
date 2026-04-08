@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import path from "path";
 import type { ResultSetHeader, RowDataPacket } from "mysql2";
 import { getDbPool } from "@/lib/db";
 import { readSessionToken, sessionCookie } from "@/lib/session";
@@ -20,6 +21,13 @@ type CreatePostBody = {
   body?: string;
 };
 
+type CreatePostInput = {
+  channelId: number;
+  title: string;
+  body: string;
+  photo: File | null;
+};
+
 type DeletePostBody = {
   postId?: number;
 };
@@ -35,6 +43,46 @@ function parsePositiveInt(value: string | null): number | null {
   }
 
   return parsed;
+}
+
+function isAllowedPhoto(file: File): boolean {
+  const allowedMimeTypes = new Set(["image/png", "image/jpeg", "image/webp"]);
+  const allowedExtensions = new Set([".png", ".jpg", ".jpeg", ".webp"]);
+
+  return allowedMimeTypes.has(file.type) && allowedExtensions.has(path.extname(file.name).toLowerCase());
+}
+
+async function parseCreatePostInput(request: Request): Promise<CreatePostInput | { error: string }> {
+  const contentType = request.headers.get("content-type") ?? "";
+
+  if (contentType.includes("multipart/form-data")) {
+    const formData = await request.formData();
+    const channelId = Number(formData.get("channelId"));
+    const title = String(formData.get("title") ?? "").trim();
+    const body = String(formData.get("body") ?? "").trim();
+    const photoEntry = formData.get("photo");
+    const photo = photoEntry instanceof File && photoEntry.size > 0 ? photoEntry : null;
+
+    if (!Number.isInteger(channelId) || channelId <= 0) {
+      return { error: "Valid channelId is required." };
+    }
+
+    return { channelId, title, body, photo };
+  }
+
+  const body = (await request.json()) as CreatePostBody;
+  const channelId = Number(body.channelId);
+
+  if (!Number.isInteger(channelId) || channelId <= 0) {
+    return { error: "Valid channelId is required." };
+  }
+
+  return {
+    channelId,
+    title: body.title?.trim() ?? "",
+    body: body.body?.trim() ?? "",
+    photo: null,
+  };
 }
 
 export async function GET(request: Request) {
@@ -67,14 +115,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
     }
 
-    const body = (await request.json()) as CreatePostBody;
-    const channelId = Number(body.channelId);
-    const title = body.title?.trim() ?? "";
-    const postBody = body.body?.trim() ?? "";
-
-    if (!Number.isInteger(channelId) || channelId <= 0) {
-      return NextResponse.json({ error: "Valid channelId is required." }, { status: 400 });
+    const input = await parseCreatePostInput(request);
+    if ("error" in input) {
+      return NextResponse.json({ error: input.error }, { status: 400 });
     }
+
+    const { channelId, title, body: postBody, photo } = input;
 
     if (title.length < 2 || title.length > 255) {
       return NextResponse.json({ error: "Title must be 2-255 characters." }, { status: 400 });
@@ -85,23 +131,54 @@ export async function POST(request: Request) {
     }
 
     const db = getDbPool();
-    const [result] = await db.execute<ResultSetHeader>(
-      "INSERT INTO `Post` (`channelId`, `authorId`, `title`, `body`) VALUES (?, ?, ?, ?)",
-      [channelId, session.userId, title, postBody],
-    );
 
-    return NextResponse.json(
-      {
-        post: {
-          id: Number(result.insertId),
-          channelId,
-          authorId: session.userId,
-          title,
-          body: postBody,
+    if (photo && (!isAllowedPhoto(photo) || photo.size > 5 * 1024 * 1024)) {
+      return NextResponse.json(
+        { error: "Photo must be PNG, JPG/JPEG, or WebP and no larger than 5MB." },
+        { status: 400 },
+      );
+    }
+
+    const connection = await db.getConnection();
+
+    try {
+      await connection.beginTransaction();
+
+      const [result] = await connection.execute<ResultSetHeader>(
+        "INSERT INTO `Post` (`channelId`, `authorId`, `title`, `body`) VALUES (?, ?, ?, ?)",
+        [channelId, session.userId, title, postBody],
+      );
+
+      const postId = Number(result.insertId);
+
+      if (photo) {
+        const buffer = Buffer.from(await photo.arrayBuffer());
+        await connection.execute<ResultSetHeader>(
+          "INSERT INTO `Attachment` (`targetType`, `targetId`, `filename`, `mimeType`, `sizeBytes`, `data`) VALUES ('POST', ?, ?, ?, ?, ?)",
+          [postId, photo.name, photo.type, photo.size, buffer],
+        );
+      }
+
+      await connection.commit();
+
+      return NextResponse.json(
+        {
+          post: {
+            id: postId,
+            channelId,
+            authorId: session.userId,
+            title,
+            body: postBody,
+          },
         },
-      },
-      { status: 201 },
-    );
+        { status: 201 },
+      );
+    } catch (error) {
+      await connection.rollback();
+      throw error;
+    } finally {
+      connection.release();
+    }
   } catch {
     return NextResponse.json({ error: "Unable to create post." }, { status: 500 });
   }
