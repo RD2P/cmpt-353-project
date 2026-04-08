@@ -1,0 +1,461 @@
+commit aac0cd710fcdf65082faf14f2029c7a7289c50f4
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 18:49:19 2026 -0600
+
+    update readme with current faetures
+
+commit 9c5235cfdef9226c9c2be39e296917d0356d767b
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 18:47:03 2026 -0600
+
+    update schema to help with searching
+
+commit 4f54cefcbdedf5b663ea702465204885a8965ebd
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 18:46:41 2026 -0600
+
+    add search functionality with content and user ranking
+
+commit d65f432fe34189d3eaaf3f1ab3283f7b45da9787
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 18:46:32 2026 -0600
+
+    add unique ID to reply div
+
+commit 4ede32ab961742165bc21d76a62cd2edb41aa49d
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 18:46:19 2026 -0600
+
+    update post item structure
+
+commit 715402e7261858c0c1ba60891a940a847ddeb109
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 18:45:40 2026 -0600
+
+    add search pages
+
+commit 74138b8dc4a138920662944450dd02b11c190452
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 18:37:36 2026 -0600
+
+    add attachment display component to channel page
+
+commit 10984e13d278e41c493b958bcc18113e839d3bff
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 18:37:17 2026 -0600
+
+    update attachment schema
+
+commit b369da426badf77cb3b9552f0557efc2c13555cf
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 18:37:02 2026 -0600
+
+    add attachments to posts route
+
+commit b2f96d14a2f8a0ba4e4988db27568113a1ee87d9
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 18:36:46 2026 -0600
+
+    create attachment display and modal
+
+commit cf142f8c75e413e56fa78804924da89bf6effacf
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 18:36:33 2026 -0600
+
+    set up route for attachments
+
+commit 071870fb60de2928655130583b4cdfbd3e6fee8a
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 18:24:13 2026 -0600
+
+    update readme
+
+commit 352b1df8b67c92f9737be0e96657547eacac8dfe
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 18:23:45 2026 -0600
+
+    add replies to channel page
+
+commit e331eb88edfe42aa03be6dc7b46f19ca141ba1f2
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 18:23:33 2026 -0600
+
+    reply modal
+
+commit 00206c7d23bbb6f5fabc6ede70e255eb72012567
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 18:23:23 2026 -0600
+
+    add delete reply button
+
+commit 342948e95b7b70b262b1696847f3c58c8e020f49
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 18:23:12 2026 -0600
+
+    set up replies route and components
+
+commit b9e3fa0c05a2169194781d3a1097cb242e837659
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 18:18:08 2026 -0600
+
+    update readme
+
+commit ab127efb89c132599f3a6396c2ce4ede787d11b8
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 16:11:39 2026 -0600
+
+    add feature for users to edit and delete their own posts
+
+commit aaf9955e5678c2b159ba4cdb13ed158b7cd4edeb
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 16:06:12 2026 -0600
+
+    add crown on admin name
+
+commit 3133e0cc9247409bc775056b16c378ead8a9fb7e
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 14:33:02 2026 -0600
+
+    update the channel page to add vote buttons
+
+commit 0a674fb7b362ad5344daece69129768b4b37c8f7
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 14:32:21 2026 -0600
+
+    handle post voting
+
+commit a1c6a90bd5f29e935b7ccb88e1e61080c1ca4ec0
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 14:32:05 2026 -0600
+
+    buttons thumbs up and down
+
+commit 56b098007b808e7436ebe1fafc176e1b89373095
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 12:52:15 2026 -0600
+
+    ensure changes in code automatically reflected on browser
+
+commit 50dac4b8bcb29429587a2e7d63fcd2dd76629c4d
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 12:51:49 2026 -0600
+
+    route for admin to promote a user to admin
+
+commit e86dfed3e55895ec9c5fb38b0fdee14e2df6d69f
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 12:51:35 2026 -0600
+
+    some ui changes
+
+commit f920fa8e2ef4c273ea07d8f946899ad5c38efa46
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 12:46:32 2026 -0600
+
+    fix password hash in seed script
+
+commit 425864a0c033d8c39a6d2f88def35547c2d93374
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 12:46:18 2026 -0600
+
+    add display name on channel page
+
+commit 7a3b8040572cd2adf54b2b7019e48bab315100e8
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 12:40:39 2026 -0600
+
+    move the welcome note to the top
+
+commit dc44fce23356804d3f336b3184f93946d0319a71
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 12:34:28 2026 -0600
+
+    add timestamp next to posts
+
+commit 91d45d5aeb5fa8125fcadf2a7ead156f3f6309ed
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 12:34:14 2026 -0600
+
+    seed 2 channels and 2 posts in each
+
+commit 60168316cad6011b8bb1ef9e7b433eeb9525cec5
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 12:29:37 2026 -0600
+
+    add seed users SQL file for initial standard users
+
+commit 75f25373e4d8fb67cc76e4cc07f91b6324d2354c
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 12:18:19 2026 -0600
+
+    add delete post button
+
+commit eb7325cba70e624501445b5f259dc39964c77083
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 12:18:08 2026 -0600
+
+    add CreatePostModal component
+
+commit e2857875dde4d5ca232e69addb03c735dac842ee
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 12:17:52 2026 -0600
+
+    add API routes for creating, fetching, and deleting posts
+
+commit 22e064f46e3b465d52b4e1943b9b759c1443c8c1
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 12:10:22 2026 -0600
+
+    add role to session token payload and validation
+
+commit 5de6635bae70506383213b287176673417e5a42f
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 12:10:13 2026 -0600
+
+    add delete channel button for admin users
+
+commit 50047c7d26cb4d8c566d2ca436a6bff183fec48c
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 12:09:50 2026 -0600
+
+    add delete channel functionality with confirmation prompt
+
+commit 9b3973eb9679ca951c7db2905860b7379ec6a3cb
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 12:07:46 2026 -0600
+
+    mount sql admin seed script
+
+commit cdd01e79ddf35532af886b9bc5aa532b7c43effc
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 12:07:33 2026 -0600
+
+    script to seed initial admin account
+
+commit 6399b2fa8dafc067432d360e57d72fc6a633017e
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:59:33 2026 -0600
+
+    add role handling in login and signup APIs
+
+commit 79f76c8b3213930b68a63dfb002a5a9855308fa4
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:58:33 2026 -0600
+
+    re-add user role in schema
+
+commit dcb3343c8e5e896a2aaebbe7976fe35c4ac7e0ae
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:52:37 2026 -0600
+
+    add modal to create a channel
+
+commit b66c0c90985aa47b436ee870aa94bf5878e4094e
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:49:45 2026 -0600
+
+    add channel listing for signed-in users
+
+commit dbb674f5457898f3d7a35365c1efc3ecc40895ba
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:49:39 2026 -0600
+
+    add API endpoints for channels
+
+commit 88e853ec53e0e4814aa261a47679ca50f356a093
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:44:43 2026 -0600
+
+    add logout button
+
+commit 9a67cfa08ca8ac09e6510052435a9f6401b6c284
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:42:53 2026 -0600
+
+    add session management and display user welcome message
+
+commit dfd9a7f38ca390d8822c71f95eab38bed1fd6909
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:42:46 2026 -0600
+
+    include displayName in session token for login and signup
+
+commit fa667969f3ad912e285f9172cb4c1e4f3ef93117
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:42:33 2026 -0600
+
+     add displayName to session token
+
+commit 9504e03c3df180eb908129795250678cbdeb051c
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:42:08 2026 -0600
+
+    add SESSION_SECRET to environment variables
+
+commit 0599d7d467a6553da37feff9b2e62de96a78e888
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:32:17 2026 -0600
+
+    take out user role, I dont' think it's needed
+
+commit c4305e1c3a865b0874fceb1cfa481db8313bd8ba
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:18:15 2026 -0600
+
+    add session management
+
+commit 670964a853f70e9fdbb897905897459040338db8
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:17:59 2026 -0600
+
+    hash passwords before storing
+
+commit 3c729c5e13ef4c7bf8e3683f3c2ea0bc0ce27bfd
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:17:38 2026 -0600
+
+    add dbconnection pool
+
+commit 16eb460705ad89b69044ccebdcd764d8360ce044
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:17:08 2026 -0600
+
+    login and logout routes
+
+commit ce452603032f5883ece933bd36c1b29d6f1aa370
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:16:49 2026 -0600
+
+    add mysql2 package
+
+commit 80de85f4ce9dd0054e2ca261dda945600a9a9324
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:16:34 2026 -0600
+
+    sign up route and page
+
+commit 90653b1ed1611d8bcfd42df9c19a796760c111ed
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:08:28 2026 -0600
+
+    clean up home page, simplify
+
+commit 10334e65037f7df66967834d67c873eade4f044f
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:03:27 2026 -0600
+
+    update color scheme
+
+commit a47acff319aa5e28c4ee59d42b8c8a93459ad116
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:02:08 2026 -0600
+
+    refactor styles on home page, improve aesthetics
+
+commit cb161b03105b28df79656b2fcc3d10a34889a5ef
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 11:00:35 2026 -0600
+
+    update colors on home page
+
+commit 9b2fddac1cee217caca3b608a57f5cd8456948c5
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 10:59:17 2026 -0600
+
+    update color scheme with lighter olor
+
+commit 4c5430fca4b8fd6c2bd643a563b53be60893ad8e
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 10:59:05 2026 -0600
+
+    update home page with better description
+
+commit a2b8a1e688f2962618d2af23addd2c8ca4bcf405
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 10:52:06 2026 -0600
+
+    add project spec
+
+commit c73874194b7f40571670b4a990888813faaed5bb
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 10:51:52 2026 -0600
+
+    add  schema for User, Channel, Post, Reply, Vote, and Attachment tables
+
+commit 356489b0e7f66fd7c29743199825f19002f7e736
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Tue Apr 7 10:50:20 2026 -0600
+
+    update favicon to a nicer one
+
+commit b114a23ad009a0fa1c840df3891fb1ea6d944001
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Thu Apr 2 14:11:42 2026 -0600
+
+    add extra muont to mysql service
+
+commit 3df7075bafc8f8b6c1ca9090d8aefa87c44fe6f5
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Thu Apr 2 14:11:19 2026 -0600
+
+    user schema
+
+commit 01f49c40170d5ebefa22b6939539bca69dbffd45
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Thu Apr 2 13:31:43 2026 -0600
+
+    add port to mysql service - to connect to service locally
+
+commit 14540a0539e4e38940f0c439fe44e0a79b4d1d37
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Thu Apr 2 13:21:57 2026 -0600
+
+    add mysql service to docker compose
+
+commit c0dcd7a49ee26bd5837d2dd0416e1089fe3e3765
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Thu Apr 2 13:21:43 2026 -0600
+
+    update dockerfile
+
+commit 537d10ac8454a5ea84ff2d282a7010cd129f2513
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Thu Apr 2 12:32:32 2026 -0600
+
+    placeholders for sign in / sign up pages
+
+commit 6cf0fd49f2a033ebcabc84fe5d87cdf7d27fd5b6
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Thu Apr 2 12:32:04 2026 -0600
+
+    minimal landing page
+
+commit 5d999565977106e3ea117de16a57f3da37487b3a
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Thu Apr 2 12:31:48 2026 -0600
+
+    delete unneeded assets
+
+commit 1e0a540ecd1965caa98dc53bc09689ab8ba0f251
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Thu Apr 2 11:54:09 2026 -0600
+
+    make initial readme
+
+commit 1c78b344d41121a56a4822b646fedf9c52970fd5
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Thu Apr 2 11:31:26 2026 -0600
+
+    write basic docker compose file with nextjs app
+
+commit efbf6a6b87bf32240f4a608ec901f0c7d31f4c42
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Thu Apr 2 11:31:08 2026 -0600
+
+    write dockerfile
+
+commit 6df66bd90b75b8f1f2bffc2a4f370d86d6d4df9f
+Author: Raphael <gld141@mail.usask.ca>
+Date:   Thu Apr 2 11:12:52 2026 -0600
+
+    Initial commit from Create Next App
