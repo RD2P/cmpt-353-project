@@ -10,12 +10,14 @@ export default function CreatePostModal({ channelId }: CreatePostModalProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [photo, setPhoto] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   function closeModal() {
     setIsOpen(false);
     setError(null);
+    setPhoto(null);
   }
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -24,10 +26,18 @@ export default function CreatePostModal({ channelId }: CreatePostModalProps) {
     setError(null);
 
     try {
+      const formData = new FormData();
+      formData.append("channelId", String(channelId));
+      formData.append("title", title);
+      formData.append("body", body);
+
+      if (photo) {
+        formData.append("photo", photo);
+      }
+
       const response = await fetch("/api/posts", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ channelId, title, body }),
+        body: formData,
       });
 
       const data = (await response.json()) as { error?: string };
@@ -94,6 +104,22 @@ export default function CreatePostModal({ channelId }: CreatePostModalProps) {
                   className="mt-1 w-full resize-y border-2 border-slate-950 bg-white px-3 py-2 text-slate-950 outline-none focus:bg-slate-100"
                 />
               </label>
+
+              <label className="block text-sm font-medium text-slate-900">
+                Photo optional
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  onChange={(event) => setPhoto(event.target.files?.[0] ?? null)}
+                  className="mt-1 w-full border-2 border-slate-950 bg-white px-3 py-2 text-slate-950 outline-none focus:bg-slate-100"
+                />
+              </label>
+
+              {photo ? (
+                <p className="text-xs text-slate-600">
+                  Selected: {photo.name} ({Math.round(photo.size / 1024)} KB)
+                </p>
+              ) : null}
 
               {error ? <p className="text-sm font-medium text-red-700">{error}</p> : null}
 
