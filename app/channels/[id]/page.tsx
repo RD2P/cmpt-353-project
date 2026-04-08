@@ -3,10 +3,12 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import type { RowDataPacket } from "mysql2";
 import CreatePostModal from "@/app/components/create-post-modal";
+import CreateReplyModal from "@/app/components/create-reply-modal";
 import DeletePostButton from "@/app/components/delete-post-button";
 import EditPostModal from "@/app/components/edit-post-modal";
 import LogoutButton from "@/app/components/logout-button";
 import PostVoteButtons from "@/app/components/post-vote-buttons";
+import ReplyList from "@/app/components/reply-list";
 import { getDbPool } from "@/lib/db";
 import { readSessionToken, sessionCookie } from "@/lib/session";
 
@@ -155,6 +157,20 @@ export default async function ChannelPage({
                   By {post.authorDisplayName}
                   {post.authorRole === "ADMIN" ? " 👑" : ""} · {formatPostTimestamp(post.createdAt)}
                 </p>
+
+                {/* Replies section */}
+                <div className="border-t-2 border-slate-200 pt-3">
+                  <div className="mb-3 flex items-center justify-between gap-2">
+                    <h4 className="text-sm font-semibold text-slate-700">Replies</h4>
+                    {isSignedIn ? <CreateReplyModal postId={post.id} /> : null}
+                  </div>
+                  <ReplyList
+                    postId={post.id}
+                    isSignedIn={isSignedIn}
+                    currentUserId={session?.userId}
+                    isAdmin={isAdmin}
+                  />
+                </div>
               </li>
             ))}
           </ul>
