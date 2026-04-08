@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS `User` (
   `role` ENUM('USER', 'ADMIN') NOT NULL DEFAULT 'USER',
   `createdAt` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uq_user_email` (`email`)
+  UNIQUE KEY `uq_user_email` (`email`),
+  KEY `ix_user_displayName` (`displayName`)
 ) ENGINE=InnoDB;
 
 -- create Channel
@@ -29,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `Channel` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_channel_name` (`name`),
   KEY `ix_channel_createdBy` (`createdBy`),
+  KEY `ix_channel_createdAt` (`createdAt`),
   CONSTRAINT `fk_channel_createdBy`
     FOREIGN KEY (`createdBy`) REFERENCES `User` (`id`)
     ON DELETE RESTRICT
@@ -47,6 +49,9 @@ CREATE TABLE IF NOT EXISTS `Post` (
   PRIMARY KEY (`id`),
   KEY `ix_post_channelId` (`channelId`),
   KEY `ix_post_authorId` (`authorId`),
+  KEY `ix_post_createdAt` (`createdAt`),
+  KEY `ix_post_channelId_createdAt` (`channelId`, `createdAt`),
+  KEY `ix_post_authorId_createdAt` (`authorId`, `createdAt`),
   CONSTRAINT `fk_post_channelId`
     FOREIGN KEY (`channelId`) REFERENCES `Channel` (`id`)
     ON DELETE CASCADE
@@ -69,6 +74,9 @@ CREATE TABLE IF NOT EXISTS `Reply` (
   KEY `ix_reply_postId` (`postId`),
   KEY `ix_reply_parentReplyId` (`parentReplyId`),
   KEY `ix_reply_authorId` (`authorId`),
+  KEY `ix_reply_createdAt` (`createdAt`),
+  KEY `ix_reply_postId_createdAt` (`postId`, `createdAt`),
+  KEY `ix_reply_authorId_createdAt` (`authorId`, `createdAt`),
   CONSTRAINT `fk_reply_postId`
     FOREIGN KEY (`postId`) REFERENCES `Post` (`id`)
     ON DELETE CASCADE
@@ -93,6 +101,7 @@ CREATE TABLE IF NOT EXISTS `Vote` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_vote_user_target` (`userId`, `targetType`, `targetId`),
   KEY `ix_vote_target` (`targetType`, `targetId`),
+  KEY `ix_vote_target_value` (`targetType`, `targetId`, `value`),
   CONSTRAINT `fk_vote_userId`
     FOREIGN KEY (`userId`) REFERENCES `User` (`id`)
     ON DELETE CASCADE
