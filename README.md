@@ -6,11 +6,11 @@ Planned stack: **Next.js** + **MySQL** + **Docker Compose**
 
 ## Core Features
 
-- Channels: browse + create
-- Posts: create questions/messages inside a channel
-- Replies: reply to posts and other replies (threaded)
+- Channels: browse + create ✓
+- Posts: create questions/messages inside a channel ✓
+- Replies: reply to posts and other replies (threaded) ✓
 - Attachments: upload and display screenshots (PNG/JPEG/WebP)
-- Voting: thumbs up/down on posts and replies (one vote per user per target)
+- Voting: thumbs up/down on posts and replies (one vote per user per target) ✓
 - Search: dedicated search page with pagination or “load more”
 
 Security requirements (implemented in API layer): auth required for all write actions, input validation, safe rendering, safe uploads, basic rate limiting.
