@@ -2,6 +2,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import type { RowDataPacket } from "mysql2";
+import AttachmentDisplay from "@/app/components/attachment-display";
 import CreatePostModal from "@/app/components/create-post-modal";
 import CreateReplyModal from "@/app/components/create-reply-modal";
 import DeletePostButton from "@/app/components/delete-post-button";
@@ -157,6 +158,11 @@ export default async function ChannelPage({
                   By {post.authorDisplayName}
                   {post.authorRole === "ADMIN" ? " 👑" : ""} · {formatPostTimestamp(post.createdAt)}
                 </p>
+
+                {/* Attachments section */}
+                <AttachmentDisplay
+                  postId={post.id}
+                />
 
                 {/* Replies section */}
                 <div className="border-t-2 border-slate-200 pt-3">
