@@ -104,21 +104,12 @@ CREATE TABLE IF NOT EXISTS `Vote` (
 -- create Attachment
 CREATE TABLE IF NOT EXISTS `Attachment` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `targetType` ENUM('POST', 'REPLY') NOT NULL,
+  `targetType` ENUM('POST') NOT NULL,
   `targetId` BIGINT UNSIGNED NOT NULL,
+  `filename` VARCHAR(255) NOT NULL,
   `mimeType` VARCHAR(127) NOT NULL,
   `sizeBytes` BIGINT UNSIGNED NOT NULL,
-  `path` VARCHAR(1024) NULL,
-  `url` VARCHAR(2048) NULL,
-  `blobRef` VARCHAR(1024) NULL,
+  `data` LONGBLOB NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `ix_attachment_target` (`targetType`, `targetId`),
-  CONSTRAINT `chk_attachment_storage`
-    CHECK (
-      (
-        (`path` IS NOT NULL AND `url` IS NULL AND `blobRef` IS NULL) OR
-        (`path` IS NULL AND `url` IS NOT NULL AND `blobRef` IS NULL) OR
-        (`path` IS NULL AND `url` IS NULL AND `blobRef` IS NOT NULL)
-      )
-    )
+  KEY `ix_attachment_target` (`targetType`, `targetId`)
 ) ENGINE=InnoDB;
