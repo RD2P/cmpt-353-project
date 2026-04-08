@@ -54,6 +54,12 @@ export default async function Home() {
         <div className="flex items-center gap-2">
         {isSignedIn ? (
           <>
+            <Link
+              href="/search"
+              className="inline-flex items-center justify-center border-2 border-slate-950 bg-white px-4 py-2 text-sm font-medium text-slate-950 shadow-[0_10px_0_0_rgba(15,23,42,1)] transition hover:-translate-y-0.5 hover:bg-slate-100"
+            >
+              Search
+            </Link>
             <div className="inline-flex items-center border-2 border-emerald-700 bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-900 shadow-[0_8px_0_0_rgba(6,95,70,0.35)]">
               Signed in
             </div>
@@ -107,6 +113,12 @@ export default async function Home() {
               >
                 Sign in
               </Link>
+              <Link
+                href="/search"
+                className="inline-flex items-center justify-center border-2 border-slate-950 bg-white px-5 py-3 text-sm font-medium text-slate-950 shadow-[0_10px_0_0_rgba(15,23,42,1)] transition hover:-translate-y-0.5 hover:bg-slate-100"
+              >
+                Search
+              </Link>
             </div>
           )}
 
@@ -122,7 +134,15 @@ export default async function Home() {
             <section className="space-y-3 border-2 border-slate-950 bg-slate-50 p-4">
               <div className="flex items-center justify-between gap-3">
                 <h2 className="text-xl font-semibold text-slate-950">Channels</h2>
-                <CreateChannelModal />
+                <div className="flex items-center gap-2">
+                  <Link
+                    href="/search"
+                    className="inline-flex items-center justify-center border-2 border-slate-950 bg-white px-4 py-2 text-sm font-medium text-slate-950 shadow-[0_8px_0_0_rgba(15,23,42,1)] transition hover:-translate-y-0.5 hover:bg-slate-100"
+                  >
+                    Search
+                  </Link>
+                  <CreateChannelModal />
+                </div>
               </div>
               {channels.length === 0 ? (
                 <p className="text-sm text-slate-700">No channels yet.</p>
