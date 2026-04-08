@@ -78,7 +78,11 @@ export default function ReplyList({
       ) : null}
 
       {currentLevelReplies.map((reply) => (
-        <div key={reply.id} className={depth > 0 ? "border-l-4 border-slate-300 pl-4" : ""}>
+        <div
+          key={reply.id}
+          id={`reply-${reply.id}`}
+          className={depth > 0 ? "border-l-4 border-slate-300 pl-4" : ""}
+        >
           <div className="space-y-2 border-2 border-slate-300 bg-slate-50 p-3">
             <div className="flex items-start justify-between gap-3">
               <div className="text-sm">
