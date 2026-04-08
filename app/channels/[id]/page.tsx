@@ -130,7 +130,11 @@ export default async function ChannelPage({
         ) : (
           <ul className="space-y-2">
             {posts.map((post) => (
-              <li key={post.id} className="space-y-2 border-2 border-slate-950 bg-white p-3">
+              <li
+                key={post.id}
+                id={`post-${post.id}`}
+                className="space-y-2 border-2 border-slate-950 bg-white p-3"
+              >
                 <div className="flex items-start justify-between gap-3">
                   <h3 className="text-base font-semibold text-slate-950">{post.title}</h3>
                   <div className="flex items-center gap-2">
@@ -160,9 +164,7 @@ export default async function ChannelPage({
                 </p>
 
                 {/* Attachments section */}
-                <AttachmentDisplay
-                  postId={post.id}
-                />
+                <AttachmentDisplay postId={post.id} />
 
                 {/* Replies section */}
                 <div className="border-t-2 border-slate-200 pt-3">
