@@ -38,16 +38,28 @@ npm run dev
 
 Open http://localhost:3000
 
-## Environment Variables
+## Installation
 
-Create a `.env` file and fill in required values.
+Create a `.env` file in the project root:
 
-Expected variables (will be finalized as features land):
+```
+# === App (nextjs service) === #
 
-- `DATABASE_URL` (MySQL connection string)
-- `UPLOAD_DIR` (server-side storage path)
-- `SESSION_SECRET` / auth secret (cookie sessions)
-- `ADMIN_EMAIL` / `ADMIN_PASSWORD` (seeding an initial admin)
+# `mysql` is docker compose service name
+DATABASE_URL=mysql://qqusr:qqpw@mysql:3306/qqdb
+
+
+# === MySQL (docker compose) === #
+
+MYSQL_DATABASE=qqdb
+MYSQL_USER=qqusr
+MYSQL_PASSWORD=qqpw
+MYSQL_ROOT_PASSWORD=qqrootpw
+
+# === Auth (implement later) === #
+
+SESSION_SECRET=dev-session
+```
 
 ## Database (MySQL)
 
@@ -61,9 +73,20 @@ Migrations + seed:
 
 Admin credentials (seeded): **TBD**
 
+## Seeded Data
+
+The database is automatically seeded with:
+
+- **Admin account**: admin@quequery.com / admin12345
+- **User accounts**:
+  - albert.smith@gmail.com / albert12345
+  - jane.jones@gmail.com / jane12345
+- **Channels** (2 channels)
+- **Posts** (2 posts in each channel)
+
 ## Accounts + Admin
 
-Planned account features:
+Implemented account features:
 
 - Sign up, sign in, sign out
 - Login required for all write actions (channels/posts/replies/votes/uploads)
